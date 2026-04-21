@@ -36,6 +36,25 @@ public class Code05_MergeSort2 {
             arr[L + i] = help[i];//每一次拷贝的时候不是所有的数据都拷贝，是拷贝已经排序好的数据，所以下标是从L+i开始的。
         }
     }
+    public static void merge3(int[] arr, int L, int M, int R) {
+        int[] helps = new int[R - L + 1];
+        int i = 0;
+        int p1 = L;
+        int p2 = M + 1;
+        while (p1<=M && p2<=R){
+            helps[i++] = arr[p1] <= arr[p2] ? arr[p1++] : arr[p2++];
+        }
+        while(p1<=M){
+            helps[i++] = arr[p1++];
+        }
+        while(p2<=R){
+            helps[i++] = arr[p1++];
+        }
+        for (int i1 = 0; i1 < helps.length; i1++) {
+            arr[L+i1] = helps[i];
+        }
+    }
+
 
     //递归就是将每个子序列都有序了，在将序列组有序
     //O(N)

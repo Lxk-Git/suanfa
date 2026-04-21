@@ -43,6 +43,16 @@ public class Code04_TwoQueueImplementStack {
             help = emp;//实现交换
             return ans;
         }
+        public T pop(){
+            while (queue.size()>1){
+                help.offer(queue.poll());
+            }
+            T ans = queue.poll();
+            Queue<T> temp = queue;
+            queue = help;
+            help = temp;
+            return ans;
+        }
         public boolean isEmpty() {
             return queue.isEmpty();
         }

@@ -64,4 +64,47 @@ public class Code05_BiggerThanRightTwice {
         return ans;
     }
 
+
+
+    public static int merge2(int[] arr,int l,int m,int r){
+        int ans = 0;
+        int windowsR = m+1;
+        for(int i =l;i<m+1;i++){
+            while (windowsR <= r&& arr[i]>(arr[windowsR]*2)){
+                ans += windowsR-m-1;
+            }
+        }
+        int[] help = new int[r-l+1];
+        int i = help.length;
+        int p1 = m;
+        int p2 = r;
+        while (p1>=l&&p2>m){
+            help[i--] = arr[p1]>arr[p2] ? arr[p1--]:arr[p2--];
+        }
+        while (p1>=l){
+            help[i--] =arr[p1--];
+        }
+        while (p2>m){
+            help[i--] =arr[p2--];
+        }
+        for (i = 0; i < help.length; i++) {
+            arr[l+i] = help[i];
+        }
+        return ans;
+    }
+
+    public static int process2(int[] arr,int l,int r){
+        if(l==r){
+            return 0;
+        }
+        int mid = l+((r-l)>>1);
+        return process2(arr,l,mid)+process2(arr,mid+1,r)+merge2(arr,l,mid,r);
+    }
+    public static int test(int[] arr){
+        if(arr.length ==0){
+            return 0;
+        }
+        return process2(arr,0,arr.length-1);
+    }
+
 }

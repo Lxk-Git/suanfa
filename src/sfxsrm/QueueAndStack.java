@@ -63,6 +63,20 @@ public class QueueAndStack {
             }
             return value;
         }
+
+        public V push() {
+            V value = null;
+            if (head != null) {
+                value = head.value;
+                head = head.next;
+                size--;
+            }
+            if (head == null) {
+                tail = null;
+            }
+            return value;
+        }
+
         public V peek() {
             V ans = null;
             if (head != null) {
@@ -104,6 +118,18 @@ public class QueueAndStack {
             size++;
         }
 
+        //入栈就是头一直往上面移动
+        public void popStack1(V value) {
+            Node<V> vNode = new Node<>(value);
+            if (head == null) {
+                head = vNode;
+            } else {
+                vNode.next = head;
+                head = vNode;
+            }
+            size++;
+        }
+
         //出栈，java代码中当然又是对head动手咯
         public V pushStack() {
             V value = null;
@@ -114,6 +140,17 @@ public class QueueAndStack {
             }
             return value;
         }
+
+        public V pushStack2() {
+            V value = null;
+            if (head != null) {
+                value = head.value;
+                head = head.next;
+                size--;
+            }
+            return value;
+        }
+
     }
 
 
@@ -165,7 +202,8 @@ public class QueueAndStack {
         }
         System.out.println("测试结束！");
     }
-//    public static void testStack() {
+
+    //    public static void testStack() {
 //        MyStack<Integer> myStack = new MyStack<>();
 //        Stack<Integer> test = new Stack<>();
 //        int testTime = 5000000;
@@ -217,7 +255,6 @@ public class QueueAndStack {
         testQueue();
 //        testStack();
     }
-
 
 
 }

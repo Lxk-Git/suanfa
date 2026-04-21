@@ -43,9 +43,33 @@ Code10_SmallerEqualBigger {
         for (i = 1; i < nodes.length; i++) {
             nodes[i - 1].next = nodes[i];
         }
-        nodes[i - 1].next = null;
+        nodes[i - 1].next = null;//最后一个指向空
         return nodes[0];
 
+    }
+
+    public static Node Equal(Node head,int pivot ){
+        if(head == null){
+            return null;
+        }
+        int i = 0;
+        Node cur = head;
+        while (cur.next!=null){
+            i++;
+            cur = cur.next;
+        }
+        Node[] nodes = new Node[i];
+        cur = head;
+        for (i = 0;  i< nodes.length; i++) {
+            nodes[i] = cur;
+            cur = cur.next;
+        }
+        arrPartition1(nodes,pivot);
+        for (i = 1; i < nodes.length; i++) {
+            nodes[i-1].next = nodes[i];
+        }
+        nodes[i-1].next = null;
+        return nodes[0];
     }
 
     public static void arrPartition(Node[] nodes, int pivot) {
@@ -59,6 +83,21 @@ Code10_SmallerEqualBigger {
                 index++;
             } else {
                 swap(nodes, --big, index);
+            }
+        }
+    }
+
+    public static void arrPartition1(Node[] nodes,int pivot){
+        int small = -1;
+        int index = 0;
+        int big = nodes.length;
+        while (index != big){
+            if(nodes[index].value <pivot){
+                swap(nodes,++small,index++);
+            }else if(nodes[index].value == pivot){
+                index++;
+            }else {
+                swap(nodes,--big,index);
             }
         }
     }

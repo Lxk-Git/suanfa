@@ -51,6 +51,26 @@ public class Code08_CoverMax {
         return max;
     }
 
+    public static int maxCover4(int[][] m){
+        Line[] lines = new Line[m.length];
+        for (int i = 0; i < m.length; i++) {
+            lines[i] = new Line(m[i][0],m[i][1]);
+        }
+        Arrays.sort(lines,new StartComparator());
+        int max = 0;
+        PriorityQueue<Integer> queue = new PriorityQueue<>();
+        for (int i = 0; i < lines.length; i++) {
+            while (!queue.isEmpty() && queue.peek() <=lines[i].start){
+                queue.poll();
+            }
+            queue.add(lines[i].end);
+            max = Math.max(max,queue.size());
+        }
+        return max;
+    }
+
+
+
 
 /*    public static int maxCover3(int[][] m){
         Line[] lines = new Line[m.length];

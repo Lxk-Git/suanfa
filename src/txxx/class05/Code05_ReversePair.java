@@ -54,7 +54,7 @@ public class Code05_ReversePair {
         int res = 0;
         while (p1 >= L && p2 > M) {
             res += arr[p1] > arr[p2] ? (p2 - M) : 0;
-            help[i--] = arr[p1] > arr[p2] ? arr[p1--] :arr[p2--];
+            help[i--] = arr[p1] > arr[p2] ? arr[p1--] : arr[p2--];
         }
         while (p1 >= L) {
             help[i--] = arr[p1--];
@@ -64,6 +64,29 @@ public class Code05_ReversePair {
         }
         for (i = 0; i < help.length; i++) {
             arr[L + i] = help[i];
+        }
+        return res;
+    }
+
+
+    public static int merge4(int[] arr, int l, int r, int m) {
+        int[] help = new int[r - l + 1];
+        int i = help.length;
+        int p1 = m;
+        int p2 = r;
+        int res = 0;
+        while (p1 >= l && p2 > m) {
+            res += arr[p1] > arr[p2] ? (p2-m):0;
+            help[i--] = arr[p1] > arr[p2] ? arr[p1--] : arr[p2--];
+        }
+        while (p1>=l){
+            help[i--] = arr[p1--];
+        }
+        while (p2>m){
+            help[i--] = arr[p2--];
+        }
+        for (int i1 = 0; i1 < help.length; i1++) {
+            arr[l+i1]=help[i1];
         }
         return res;
     }

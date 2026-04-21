@@ -41,15 +41,15 @@ public class LinkTable {
         Node next = null;
         Node pre = null;
         while (head != null){//当head等于null了，就代表所有的数据都遍历完了
-            next = head.next;//先将head.next指针指向的数据给到节点next，
+            next = head.next;//先将head.next指针指向的数据给到节点next，比如说此时的next从null变成了2
             //将指针指向pre，第一次是null，
             // 第二次及以后就是在pre=head，head的值传递给pre,pre指针向head移动，head=next，head向next移动，head.next=pre就是将链表反转了，
             // 因为head移动到了next,head的新下一点就是pre
             //例子 第一步：null <--1   2-->3-->null
             //    第二步：null <--1<--2   3-->null
-            head.next = pre;
+            head.next = pre;//head.next指向了null
             pre = head; // pre指针向head移动，pre变成了head了，这一步在java的jvm中通过可达性分析算法，将无用的引用废弃掉了
-            head = next; //再用head替换掉一开始存的next
+            head = next; //再用head替换掉一开始存的next,头变成了2，和上面的next = head.next;完成了替换
         }
         return pre; //必须返回她也是因为jvm可达性算法，不然就会被垃圾回收
 

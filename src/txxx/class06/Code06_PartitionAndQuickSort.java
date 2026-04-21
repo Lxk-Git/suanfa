@@ -66,29 +66,7 @@ public class Code06_PartitionAndQuickSort {
         return new int[]{less + 1, more};//这是一个闭区间
     }
 
-    public static int[] partition3(int[] arr, int L, int R) {
 
-        if (L > R) {
-            return new int[]{-1, -1};
-        }
-        if (L == R) {
-            return new int[]{L, L};
-        }
-        int less = L - 1;
-        int more = R;
-        int index = L;
-        while (index < R) {
-            if (arr[R] > arr[index]) {
-                swap(arr, index++, ++less);
-            } else if (arr[R] < arr[index]) {
-                swap(arr, index, --more);
-            } else {
-                index++;
-            }
-        }
-        swap(arr, more, R);
-        return new int[]{less + 1, more};
-    }
 
 
     //快排的重点就是这个荷兰国旗方法2的中间值就是有序的，这个时候就用递归让左边有序，右边也有序
@@ -110,15 +88,56 @@ public class Code06_PartitionAndQuickSort {
         process(arr, M[1] + 1, R);
     }
 
-    public static void process2(int[] arr, int L, int R) {
-        if (L >= R) {//递归结束条件
+
+
+    //用这个方法，验证通过！
+    private static void quickSort4(int[] arr) {
+        if (arr.length == 0) {
+            return;
+        }
+        process4(arr, 0, arr.length - 1);
+    }
+
+    private static void process4(int[] arr, int L, int R) {
+        if (L == R) {
+            return;
+        }
+        if (L > R) {
+            return;
+        }
+        if (R < L) {
             return;
         }
         swap(arr, L + (int) (Math.random() * ((R - L) >> 1)), R);
-        int[] M = partition3(arr, L, R);
-        process2(arr, L, M[0] - 1);
-        process2(arr, M[1] + 1, R);
+        int[] M = partition4(arr,L,R);
+        process4(arr,L,M[0]-1);
+        process4(arr,M[1]+1,R);
     }
+
+    private static int[] partition4(int[] arr, int l, int r) {
+        if(l>r){
+            return new int[]{-1,-1};
+        }
+        if(l==r){
+            return new int[]{l,r};
+        }
+        int less = l-1;
+        int more = r;
+        int index = l;
+        while (index<more){//动态推进的，所以要index<more就好了
+            //大的放右边
+            if(arr[r]<arr[index]){
+                swap(arr,index,--more);//index不用++是因为，交换完了的数据，还是要参与到下一次的比较重
+            }else if(arr[r]>arr[index]){//小的放在左边
+                swap(arr,index++,++less);
+            }else {
+                index++;//相等了的话就直接移动
+            }
+        }
+        swap(arr,more,r);
+        return new int[]{less+1,more};
+    }
+
 
     //用栈的迭代来实现快速排序，
     //先做一个op辅助类
@@ -169,50 +188,14 @@ public class Code06_PartitionAndQuickSort {
 
     public static void main(String[] args) {
         int[] arr = {1, 6, 2, 5, 3, 7, 4};
-        quickSort1(arr);
+//        quickSort1(arr);
+        quickSort4(arr);
+        for (int i : arr) {
+            System.out.println(i);
+        }
     }
 
 
-    //全新
-    //先做荷兰国旗问题，也就是小于x的放在左边，==x放在中间，大于x放在右边
-    //要做的是x是可以等于多个的情况
-    public static int[] partition4(int[] arr, int l,  int r) {
-        if (l > r) {
-            return new int[]{-1, -1};
-        }
-        if (l == r) {
-            return new int[]{l, r};
-        }
-        int less = l - 1;
-        int more = r;
-        int index = l;
-        while (index < more) {
-            if (arr[r] < arr[index]) {
-                swap(arr, index++, ++less);
-            } else if (arr[r] > arr[index]) {
-                swap(arr, index, --more);
-            } else {
-                index++;
-            }
-        }
-        swap(arr, more, r);
-        return new int[]{less+1, more};
-    }
-    public static void quickSort(int[] arr){
-        if(arr==null || arr.length<1){
-            return;
-        }
-        process33(arr,0,arr.length-1);
-    }
 
-    private static void process33(int[] arr, int l, int r) {
-        if(l>=r){
-            return;
-        }
-        swap(arr,l+(int) Math.random() * ((r-l)>>1),r);
-        int[] ints = partition4(arr, l, r);
-        process33(arr,l,ints[0]-1);
-        process33(arr,ints[0]+1,r);
-    }
 
 }

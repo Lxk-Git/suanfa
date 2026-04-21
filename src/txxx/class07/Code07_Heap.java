@@ -40,6 +40,22 @@ public class Code07_Heap {
         }
 
 
+        public void push1(int value){
+            if(size==limit){
+                return;
+            }
+            heap[size]= value;
+            heapPush(heap,size);
+        }
+
+        private void heapPush(int[] heap, int index) {
+            while (heap[index] > heap[(index-1)/2]){
+                swap(heap,index,(index-1)/2);
+                index = (index-1)/2;
+            }
+        }
+
+
         //堆的弹出
         //将堆的根节点的数据弹出，但是不是真的把这个数字删除，是将根节点下标0和size(也就是最后一个数字交换)，然后size减一，就不然这个数继续参与下面的对比
         //然后再将交换了的新堆做对比，把新的最大数字放在根节点上
@@ -65,6 +81,27 @@ public class Code07_Heap {
             heapPop(heap,0,size);
             return ans;
         }
+        public int pop2(){
+            int ans = heap[0];
+            swap(heap,0,--size);
+            heapPop3(heap,0,size);
+            return ans;
+        }
+
+        private void heapPop3(int[] heap, int index, int size) {
+            int leftC = 2*index+1;
+            while (leftC<size){
+                int temp = leftC +1 <size && heap[leftC+1] >heap[leftC] ? leftC+1:leftC;
+                temp = heap[index] > heap[temp]? index:temp;
+                if(temp == index){
+                    break;
+                }
+                swap(heap,index,temp);
+                index = temp;
+                leftC = 2*index+1;
+
+            }
+        }
 
         public static void heapPop1(int[] arr,int index,int size){
             int leftC = index * 2+1;
@@ -84,6 +121,11 @@ public class Code07_Heap {
             swap(heap,0,--size);
             heapPop1(heap,0,size);
             return ans;
+        }
+
+        public static void main(String[] args) {
+            int i = 1/2;
+            System.out.println(i);
         }
     }
 }

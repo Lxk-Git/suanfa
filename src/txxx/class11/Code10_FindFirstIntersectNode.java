@@ -167,7 +167,7 @@ public class Code10_FindFirstIntersectNode {
                 n++;
                 cur1 = cur1.next;
             }
-            while (cur2 != loop1) {
+            while (cur2 != loop2) {
                 n--;
                 cur2 = cur2.next;
             }
@@ -229,8 +229,8 @@ public class Code10_FindFirstIntersectNode {
             return cur1;
         } else {
             cur1 = loop1.next;
-            while (cur1 != loop1){
-                if(cur1 == loop2){
+            while (cur1 != loop1) {
+                if (cur1 == loop2) {
                     return loop2;
                 }
                 cur1 = cur1.next;
@@ -255,17 +255,17 @@ public class Code10_FindFirstIntersectNode {
     }
 
     public static Node getIntersectNode2(Node head1, Node head2) {
-        if(head1 == null || head2 ==null){
+        if (head1 == null || head2 == null) {
             return null;
         }
         Node loop1 = getLoopNode2(head1);
         Node loop2 = getLoopNode2(head2);
         //如果是无环
-        if(loop1 == null && loop2 == null){
-            return noLoopNode2(head1,head2);
+        if (loop1 == null && loop2 == null) {
+            return noLoopNode2(head1, head2);
         }
         //如果有环
-        if(loop1 != null && loop2 != null){
+        if (loop1 != null && loop2 != null) {
             return haveLoopNode2(head1, head2, loop1, loop2);
         }
         return null;
@@ -309,4 +309,131 @@ public class Code10_FindFirstIntersectNode {
         head2.next.next.next = head1.next.next.next.next.next; // 8->6
         System.out.println(getIntersectNode(head1, head2).value);*/
     }
+    //1判断有没有环，有环就返回入环节点，没有就是null,
+    //2.如果都没有环，相交的话，end1==end2,那么就让长的那个先走长的那几步，那么就能拿到相交的节点了
+    //3.如果都有环，分三种情况
+    //一：没有相交，返回null
+    //二：环外相交，
+    //三：环内相交，返回任何一个都可以。
+    //如果是第第二种情况loop1和loop2是一样的，这个就个2是一样的，否则就是情况二和情况三
+    //情况三就是loop1出发，一定能到loop2，否则就结束
+
+    //先做1，快慢指针，如果有环，那么快慢指针他们一定会相遇，否则快指针先到null.相遇之后，慢指针一步一步走，快指针到head，也一步一步走，最后相遇的地方就是入环节点
+    public static Node getLoopNode3(Node head) {
+        if (head == null || head.next == null || head.next.next == null) {
+            return null;
+        }
+        Node slow = head.next;
+        Node fast = head.next.next;
+        while (slow != fast) {
+            if (fast.next == null || fast.next.next == null) {
+                return null;
+            }
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        fast = head;
+        while (slow != fast) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+        return slow;
+    }
+
+    //2.如果两个都没有环，判断相交不
+    public static Node noLoopNode3(Node head1, Node head2) {
+        if (head1 == null || head2 == null) {
+            return null;
+        }
+        //计算长度
+        int n = 0;
+        Node cur1 = head1;
+        while (cur1.next != null) {
+            n++;
+            cur1 = cur1.next;
+        }
+        Node cur2 = head2;
+        while (cur2.next != null) {
+            n--;
+            cur2 = cur2.next;
+        }
+        if(cur1 != cur2){
+            return null;
+        }
+        cur1 = n > 0 ? head1 : head2;
+        cur2 = cur1 == head1 ? head2 : head1;
+        Math.abs(n);
+        while (n != 0) {
+            cur1 = cur1.next;
+            n--;
+        }
+        while (cur1 != cur2) {
+            cur1 = cur1.next;
+            cur2 = cur2.next;
+
+        }
+        return cur1;
+
+    }
+    public static Node haveLoopNode3(Node head1,Node head2,Node loop1,Node loop2){
+        if(head1 ==null || head2 == null){
+            return null;
+        }
+        Node cur1= null;
+        Node cur2= null;
+        if(loop1 == loop2){
+            int n=0;
+            cur1 = head1;
+            cur2= head2;
+            while (cur1 !=loop1){
+                n++;
+                cur1 = cur1.next;
+            }
+            while (cur2 != loop2){
+                n--;
+                cur2 = cur2.next;
+            }
+            cur1 = n>0 ? head1:head2;
+            cur2 = cur1 == head1? head2:head1;
+            Math.abs(n);
+            while (n!=0){
+                cur1= cur1.next;
+                n--;
+            }
+            while (cur1 != cur2){
+                cur1 = cur1.next;
+                cur2 = cur2.next;
+            }
+            return cur1;
+        }else {
+            cur1 = loop1.next;
+            while (cur1 != loop1){
+                if(cur1 != loop2){
+                    return null;
+                }
+                cur1 = cur1.next;
+            }
+            return loop1;
+        }
+    }
+
+    public static Node find(Node head1,Node head2){
+        if(head1==null || head2==null){
+            return null;
+        }
+        Node loop1 = getLoopNode3(head1);
+        Node loop2 = getLoopNode3(head2);
+        if(loop1 == null && loop2 ==null){
+            Node node = noLoopNode3(head1, head2);
+            return node;
+        }
+        if(loop1!= null && loop2!=null){
+            return haveLoopNode3(head1,head2,loop1,loop2);
+        }
+        return null;
+
+    }
+
+
+
 }

@@ -65,4 +65,47 @@ public class Code04_RingArray {
 
 
     }
+
+    public class myQueue1{
+        private int[] arr;
+        private int begin;
+        private int end;
+        private int size;
+        private int limit;
+
+        public myQueue1(int limit){
+            arr = new int[limit];
+            begin = 0;
+            end = 0;
+            size = 0;
+            this.limit = limit;
+        }
+
+        public void push(int value){
+            if(size == limit){
+                System.out.println("满了！");
+                return;
+            }
+            size ++;
+            arr[end] = value;
+            end = addIndex(end);
+        }
+
+        public int pop(){
+            if(size == 0){
+                System.out.println("完了");
+            }
+            size--;
+            int result = arr[begin];
+            begin = addIndex(begin);
+            return result;
+        }
+
+        private int addIndex(int i) {
+            return i < limit -1 ? i+1:0;
+        }
+
+    }
+
+
 }

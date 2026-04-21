@@ -97,12 +97,18 @@ public class Code07_HeapSort {
             for (int i =arr.length -1;i>=0;i--){
                 heapiFy(arr,i,arr.length);
             }
+//            int size = arr.length;
+//            swap(arr,0,--size);//最后一个数和根节点交换
+//            //下面维持大根堆结构来排序
+//            while (size>0){
+//                //因为上面已经将所有子树包括整棵树都变成了大根堆，所有就可以从0到size进行维持大根堆
+//                heapiFy(arr,0,size);//边界问题看leftC + 1 < size，他是不会到最后的size的
+//                swap(arr,0,--size);
+//            }
             int size = arr.length;
-            swap(arr,0,--size);//最后一个数和根节点交换
-            //下面维持大根堆结构来排序
+            swap(arr,0,--size);
             while (size>0){
-                //因为上面已经将所有子树包括整棵树都变成了大根堆，所有就可以从0到size进行维持大根堆
-                heapiFy(arr,0,size);//边界问题看leftC + 1 < size，他是不会到最后的size的
+                heapiFy(arr,0,size);
                 swap(arr,0,--size);
             }
         }
